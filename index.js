@@ -12,12 +12,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
-var configDB = require('./config/database.js');
+//var configDB = require('./config/database.js');
 var keys = require('./config/keys.js');
 
-//console.log(keys.MONGO_URI);
+console.log(keys.mongoURI);
 // configuration ===============================================================
-mongoose.connect(configDB.url); // connect to our database
+mongoose.connect('mongodb://dev:password@ds229438.mlab.com:29438/tasklistddbb_dev', function(error) {
+  if (error)
+    console.log('Error connecting database');
+}); // connect to our database
 
  require('./config/passport')(passport); // pass passport for configuration
 
@@ -27,7 +30,8 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
 
 // No voy a utilizar este tamplating
-//app.set('view engine', 'ejs'); // set up ejs for templating
+//app.set('view engine', 'html');
+app.set('view engine', 'ejs'); // set up ejs for templating
 
 // required for passport
 app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
