@@ -17,7 +17,7 @@ var keys = require('./config/keys.js');
 
 console.log(keys.mongoURI);
 // configuration ===============================================================
-mongoose.connect('mongodb://dev:password@ds229438.mlab.com:29438/tasklistddbb_dev', function(error) {
+mongoose.connect(keys.mongoURI, function(error) {
   if (error)
     console.log('Error connecting database');
 }); // connect to our database
