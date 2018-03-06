@@ -1,4 +1,6 @@
 // app/routes.js
+const Task = require('./model/task');
+
 module.exports = function(app, passport) {
 
     // =====================================
@@ -60,9 +62,18 @@ module.exports = function(app, passport) {
     // we will use route middleware to verify this (the isLoggedIn function)
     // Pass the user's tasks from database
     app.get('/tasks', isLoggedIn, function(req, res) {
-        res.render('tasks.ejs', {
-            user : req.user // get the user out of session and pass to template
+        Task.find({}, function(error, tasks) {
+          if (error) res.send(error);
+          res.render('tasks.ejs', {
+              user : req.user, // get the user out of session and pass to template
+              tasks: tasks
+          });
         });
+
+    });
+
+    app.post('/tasks', isLoggedIn, function(req, res) {
+
     });
 
     // =====================================
